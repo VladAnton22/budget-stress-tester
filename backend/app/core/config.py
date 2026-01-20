@@ -16,4 +16,8 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
     )
 
+    @property
+    def database_url(self):
+        return f"postgresql://{self.db_user}:{parse.quote(self.db_password)}@{self.db_host}:{self.db_port}/{self.db_name}"
+
 settings = Settings()    # type: ignore[call-arg]

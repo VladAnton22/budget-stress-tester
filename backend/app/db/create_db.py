@@ -1,6 +1,6 @@
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from core.config import settings
+from app.core.config import settings
 
 def create_database():
     # Connect to default postgres DB
