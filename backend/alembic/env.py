@@ -15,6 +15,7 @@ from app.db.base import Base            # type: ignore
 from app.models import *                # type: ignore
 
 target_metadata = Base.metadata
+print("Detected tables:", Base.metadata.tables.keys())
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -1,16 +1,16 @@
-from datetime import datetime
+from pydantic import BaseModel, EmailStr
 from uuid import UUID
 
-from pydantic import BaseModel
-
 class UserBase(BaseModel):
-    email: str
-    currency: str
-    timezone: bool
+    username: str
+    email: EmailStr | None = None
+    disabled: bool | None = None
 
-class UserCreate(UserBase):
-    password: str
-
-class USerOut(UserBase):
+class UserResponse(BaseModel):
     id: UUID
-    created_at: datetime
+    username: str
+    email: EmailStr
+    disabled: bool
+
+    class Config:
+        from_attribute = True

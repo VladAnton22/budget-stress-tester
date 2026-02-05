@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     db_name: str
     secret_key: str
     debug: bool = True
+    access_token_expire_minutes: int
+    algorithm: str
 
     model_config = SettingsConfigDict(
         env_file=Path(__file__).resolve().parents[2] / ".env",
