@@ -1,5 +1,3 @@
-from app.core.dependencies import get_current_user
-
 # FLOW 1: Login -> Tokens Issued
 
 ## Step 1: client sends credentials
