@@ -1,9 +1,19 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+from uuid import UUID
+
 from app.models.user import User
 
 def get_by_username(db: Session, username: str) -> User | None:
     stmt = select(User).where(User.username == username)
+    return db.scalars(stmt).first()
+
+def get_by_email(db: Session, email: str) -> User | None:
+    stmt = select(User).where(User.email == email)
+    return db.scalars(stmt).first()
+
+def get_by_id(db: Session, user_id: UUID) -> User | None:
+    stmt = select(User).where(User.id == user_id)
     return db.scalars(stmt).first()
 
 def exists_by_username(db: Session, username: str) -> bool:

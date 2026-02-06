@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from uuid import UUID
 
-class UserBase(BaseModel):
+class User(BaseModel):
     username: str
     email: EmailStr | None = None
     disabled: bool | None = None

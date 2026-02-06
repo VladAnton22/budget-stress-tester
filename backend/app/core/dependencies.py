@@ -1,4 +1,5 @@
 from typing import Annotated
+from uuid import UUID
 
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
@@ -6,9 +7,9 @@ from sqlalchemy.orm import Session
 from jwt.exceptions import InvalidTokenError
 
 from app.core.security import decode_token
-from app.repositories.user_repo import get_by_username
+from app.repositories import user_repo
 from app.db.session import get_db
-from app.schemas.user import UserBase
+from app.schemas.user import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
 
@@ -23,19 +24,20 @@ def get_current_user(
     )
     try:
         payload = decode_token(token)
-        username: str | None = payload.get("sub")   # sub is the subject of the jwt
-        if username is None:
+        user_id: str | None = payload.get("sub")   # sub is the subject of the jwt
+        if user_id is None:
             raise credentials_exception
-    except InvalidTokenError:
+    except InvalidTokenError as e:
         raise credentials_exception
 
-    user = get_by_username(db, username)
+    user = user_repo.get_by_id(db, UUID(user_id))
+
     if user is None:
         raise credentials_exception
 
     return user
 
-def get_current_active_user(user: Annotated[UserBase, Depends(get_current_user)]):
+def get_current_active_user(user: Annotated[User, Depends(get_current_user)]) -> User:
     if user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return user
