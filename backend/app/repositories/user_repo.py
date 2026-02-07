@@ -41,3 +41,10 @@ def create_user(
     db.refresh(user)
     return user
 
+def disable_user(db: Session, user_id: UUID) -> User:
+    user = get_by_id(db, user_id)
+    if user:
+        user.disabled = True
+        db.commit()
+        db.refresh(user)
+    return user

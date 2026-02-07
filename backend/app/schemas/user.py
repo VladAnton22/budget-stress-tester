@@ -1,10 +1,6 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from uuid import UUID
 
-class User(BaseModel):
-    username: str
-    email: EmailStr | None = None
-    disabled: bool | None = None
 
 class UserResponse(BaseModel):
     id: UUID
@@ -12,5 +8,10 @@ class UserResponse(BaseModel):
     email: EmailStr
     disabled: bool
 
-    class Config:
-        from_attribute = True
+    model_config = ConfigDict(from_attributes=True)
+
+
+class UserUpdate(BaseModel):
+    email: EmailStr | None = None
+
+    model_config = ConfigDict(from_attributes=True)
