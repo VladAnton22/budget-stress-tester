@@ -29,12 +29,16 @@ def create_user(
         username: str,
         email:str,
         password_hash: str,
+        currency: str = "USD",
+        timezone: str = "UTC",
 ) -> User:
     user = User(
         username=username,
         email=email,
         password_hash=password_hash,
         disabled=False,
+        currency=currency,
+        timezone=timezone,
     )
     db.add(user)
     db.commit()
